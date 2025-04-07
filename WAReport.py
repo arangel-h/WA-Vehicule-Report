@@ -1,3 +1,30 @@
+import os
+from twilio.rest import Client
+
+def send_whatsapp_message(to, message):
+    Account = os.getenv("TWILIO_ACCOUNT")
+    Token = os.getenv("TWILIO_TOKEN")
+    Number = os.getenv("TWILIO_PHONE")
+
+    client = Client(Account, Token)
+
+    try:
+        message = client.messages.create(
+            from_=Number,
+            body=message,
+            to=f"whatsapp:{to}"
+        )
+        print(f"Mensaje enviado: {message.sid}")
+    except Exception as e:
+        print(f"Error al enviar mensaje: {e}")
+
+
+if __name__ == "__main__":
+    send_whatsapp_message("+52XXXXXXXXXX", "¡Hola desde Python!")
+
+
+
+
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 
